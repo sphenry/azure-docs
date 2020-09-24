@@ -125,6 +125,24 @@ callClient.createCallAgent(tokenCredential).then(agent => {
 });
 ```
 
+
+## Accept a call
+Listed for the `callUpdated` event on the callAgent object and, for each call object added, listen for 'callStateChanged' events. If the state is 'Incoming' accept it by calling `call.accept()` on the passed `call` object.
+
+```javascript
+callAgent.on('callsUpdated', e => {
+    e.added.forEach(call => {
+        call.on('callStateChanged', e => {
+            if(call.state === 'Incoming') {
+                call.accept();
+                hangUpButton.disabled = false;
+                callButton.disabled = true;
+            }
+        });
+    });
+});
+```
+
 ## Start a call
 
 Add an event handler to initiate a call when the `callButton` is clicked:
